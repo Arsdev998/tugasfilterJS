@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Data Moslem Travel</title>
+  </head>
+  <body>
+    <h1>Data Paket Perjalanan Moslem Travel</h1>
+    <main>
+      <aside>
+        <div class="tahun">
+          <label for="tahun">Tahun</label>
+          <input name="tahun" type="radio" id="tahun" onclick="filterByjadwal_keberangkatan('2020')">2020</>
+          <input name="tahun" type="radio" id="tahun" onclick="filterByjadwal_keberangkatan('2023')">2023</button>
+          <input name="tahun" type="radio"  id="tahun" onclick="filterByjadwal_keberangkatan('2024')">2024</>
+        </div>
+        <div class="Kategori">
+          <label for="judul_paket">Kategori:</label>
+          <button onclick="filterByCategory('Haji')">Haji</button>
+          <button onclick="filterByCategory('Umrah')">Umrah</button>
+          <button onclick="filterByCategory('Tour')">Tour</button>
+        </div>
+        <div class="price">
+          <button onclick="filterByPriceRange(10000000, 20000000)">
+            10 - 20 Juta
+          </button>
+          <button onclick="filterByPriceRange(20000000, 30000000)">
+            20 - 30 Juta
+          </button>
+          <button onclick="filterByPriceRange(30000000, 40000000)">
+            30 - 40 Juta
+          </button>
+          <button onclick="filterByPriceRange(40000000, Infinity)">
+            > 40 Juta
+          </button>
+          <button onclick="resetFilters()">Reset Filters</button>
+        </div>
+      </aside>
+
+      <div id="packages"></div>
+    </main>
+
+    <script defer src="script.js"></script>
+  </body>
+</html>
