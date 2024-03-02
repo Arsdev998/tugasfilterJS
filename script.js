@@ -13,7 +13,7 @@ async function fetchDataFromAPI() {
     const data = await response.json();
     originalPackagesData = data.cards; // Store the original data
     filteredPackagesData = originalPackagesData.slice(); // Copy original data to filtered data
-    displayPackages(filteredPackagesData);
+    applyFilters(); // Apply filters initially
   } catch (error) {
     console.error("Error fetching data:", error);
   }
@@ -23,10 +23,16 @@ function displayPackages(packages) {
   const packagesContainer = document.getElementById("packages");
   packagesContainer.innerHTML = ""; // Clear previous content
 
-  packages.forEach((pkg) => {
-    const packageElement = createPackageElement(pkg);
-    packagesContainer.appendChild(packageElement);
-  });
+  if (packages.length === 0) {
+    const noResultsMessage = document.createElement("p");
+    noResultsMessage.textContent = "Tidak ada hasil yang ditemukan.";
+    packagesContainer.appendChild(noResultsMessage);
+  } else {
+    packages.forEach((pkg) => {
+      const packageElement = createPackageElement(pkg);
+      packagesContainer.appendChild(packageElement);
+    });
+  }
 }
 
 function createPackageElement(pkg) {
@@ -50,33 +56,25 @@ function createPackageElement(pkg) {
   packageContainer.appendChild(landing);
 
   const price = document.createElement("p");
-  price.textContent = `${formatToRupiah(pkg.price_quad_basic)}`;
+  price.textContent = `Rp${formatToRupiah(pkg.price_quad_basic)}`;
   packageContainer.appendChild(price);
 
   const maskapai = document.createElement("p");
-  maskapai.textContent = `Maskapai: ${pkg.maskapaiName}`;
+  maskapai.textContent = `Maskapai: ${pkg.maskapaiName} ${String.fromCodePoint(
+    0x2708
+  )}`; // Menambahkan emoji pesawat
   packageContainer.appendChild(maskapai);
 
   return packageContainer;
 }
 
 function formatToRupiah(angka) {
-  var rupiah = "";
-  var angkarev = angka.toString().split("").reverse().join("");
-  for (var i = 0; i < angkarev.length; i++)
-    if (i % 3 == 0) rupiah += angkarev.substr(i, 3) + ".";
-  return (
-    "Rp. " +
-    rupiah
-      .split("", rupiah.length - 1)
-      .reverse()
-      .join("")
-  );
+  return angka.toLocaleString("id-ID");
 }
 
-// Function to filter packages by jadwal_keberangkatan
-function filterByjadwal_keberangkatan(jadwal_keberangkatan) {
-  currentFilters.jadwal_keberangkatan = jadwal_keberangkatan;
+// Function to filter packages by bulan
+function filterByBulan(bulan) {
+  currentFilters.jadwal_keberangkatan = bulan;
   applyFilters();
 }
 
@@ -93,18 +91,51 @@ function filterByCategory(judul_paket) {
   applyFilters();
 }
 
+// Function to reset all filters
+// Function to reset all filters
+// Function to reset all filters
+function resetFilters() {
+  // Reset select elements
+  document.querySelector('select[name="bulan"]').value = "all";
+
+  // Reset radio buttons
+  const categoryRadios = document.querySelectorAll('input[name="category"]');
+  categoryRadios.forEach((radio) => {
+    radio.checked = false;
+  });
+
+  const priceRadios = document.querySelectorAll('input[name="price"]');
+  priceRadios.forEach((radio) => {
+    radio.checked = false;
+  });
+
+  // Reset currentFilters
+  currentFilters = {};
+
+  // Apply filters (show all packages)
+  applyFilters();
+}
+
 // Function to apply filters
 function applyFilters() {
   let result = originalPackagesData.slice(); // Copy original data
 
   // Apply filters
-  if (currentFilters.jadwal_keberangkatan) {
-    result = result.filter((pkg) =>
-      pkg.jadwal_keberangkatan
-        .toLowerCase()
-        .includes(currentFilters.jadwal_keberangkatan.toLowerCase())
-    );
+  if (
+    currentFilters.jadwal_keberangkatan &&
+    currentFilters.jadwal_keberangkatan !== "all"
+  ) {
+    result = result.filter((pkg) => {
+      const departureDate = new Date(pkg.jadwal_keberangkatan);
+      const filterMonth = parseInt(currentFilters.jadwal_keberangkatan);
+
+      // Mengambil bulan dari tanggal keberangkatan
+      const departureMonth = departureDate.getMonth() + 1; // Ingat bahwa bulan dimulai dari 0, maka tambahkan 1
+
+      return departureMonth === filterMonth;
+    });
   }
+
   if (currentFilters.minPrice && currentFilters.maxPrice) {
     result = result.filter(
       (pkg) =>
@@ -112,6 +143,7 @@ function applyFilters() {
         pkg.price_quad_basic <= currentFilters.maxPrice
     );
   }
+
   if (currentFilters.judul_paket) {
     result = result.filter((pkg) =>
       pkg.judul_paket
@@ -124,12 +156,11 @@ function applyFilters() {
   displayPackages(result);
 }
 
-// Function to reset all filters
-function resetFilters() {
-  currentFilters = {}; // Reset filters object
-  applyFilters(); // Apply filters (show all packages)
-}
-
 document.addEventListener("DOMContentLoaded", () => {
   fetchDataFromAPI();
+
+  // Add event listener to reset button
+  document
+    .getElementById("resetButton")
+    .addEventListener("click", resetFilters);
 });
