@@ -24,7 +24,7 @@ function displayPackages(packages) {
   packagesContainer.innerHTML = ""; // Clear previous content
 
   if (packages.length === 0) {
-    const noResultsMessage = document.createElement("p");
+    const noResultsMessage = document.createElement("span");
     noResultsMessage.textContent = "Tidak ada hasil yang ditemukan.";
     packagesContainer.appendChild(noResultsMessage);
   } else {
@@ -48,22 +48,26 @@ function createPackageElement(pkg) {
   packageContainer.appendChild(title);
 
   const departure = document.createElement("p");
-  departure.textContent = `Jadwal Keberangkatan: ${pkg.jadwal_keberangkatan}`;
+  departure.textContent = `${String.fromCodePoint(0x1f4c5)} ${
+    pkg.jadwal_keberangkatan
+  }`;
   packageContainer.appendChild(departure);
 
+  const maskapai = document.createElement("p");
+  maskapai.textContent = `${String.fromCodePoint(0x1f6eb)} ${pkg.maskapaiName}`; // Menambahkan emoji pesawat
+  packageContainer.appendChild(maskapai);
+
   const landing = document.createElement("p");
-  landing.textContent = `Mendarat di: ${pkg.mendarat_di}`;
+  landing.textContent = `${String.fromCodePoint(0x1f6ec)} ${pkg.mendarat_di}`;
   packageContainer.appendChild(landing);
+
+  const bintang = document.createElement("p");
+  bintang.textContent = "⭐".repeat(pkg.hotel_star);
+  packageContainer.appendChild(bintang);
 
   const price = document.createElement("p");
   price.textContent = `Rp${formatToRupiah(pkg.price_quad_basic)}`;
   packageContainer.appendChild(price);
-
-  const maskapai = document.createElement("p");
-  maskapai.textContent = `Maskapai: ${pkg.maskapaiName} ${String.fromCodePoint(
-    0x2708
-  )}`; // Menambahkan emoji pesawat
-  packageContainer.appendChild(maskapai);
 
   return packageContainer;
 }

@@ -10,6 +10,7 @@
     <h1>Data Paket Perjalanan Moslem Travel</h1>
     <main>
       <aside>
+        <h2>Filter Paket</h2>
         <div class="bulan">
           <select name="bulan" onchange="filterByBulan(this.value)">
             <option value="all">Pilih Bulan</option>
@@ -28,28 +29,71 @@
           </select>
         </div>
         <div class="Kategori">
-          <p>Kategori:</p>
-          <input type="radio" name="category" onclick="filterByCategory('Haji')">Haji</>
-          <input type="radio" name="category" onclick="filterByCategory('Umrah')">Umrah</>
-          <input type="radio" name="category" onclick="filterByCategory('Tour')">Tour</>
+          <h3>Kategori</h3>
+          <label for="haji">Haji</label>
+          <input
+            type="radio"
+            id="haji"
+            name="category"
+            onclick="filterByCategory('Haji')"
+          />
+          <label for="Umrah">Umrah</label>
+          <input
+            type="radio"
+            id="Umrah"
+            name="category"
+            onclick="filterByCategory('Umrah')"
+          />
+          <label for="Tour">Tour</label>
+          <input
+            type="radio"
+            id="Tour"
+            name="category"
+            onclick="filterByCategory('Tour')"
+          />
         </div>
         <div class="price">
-          <label for="10juta"> 10 - 20 Juta
-            <input type="radio" id="10juta" name="price" onclick="filterByPriceRange(10000000, 20000000)">
+          <h4>Rentang Harga</h4>
+          <label for="10juta">
+            10 - 20 Juta
+            <input
+              type="radio"
+              id="10juta"
+              name="price"
+              onclick="filterByPriceRange(10000000, 20000000)"
+            />
           </label>
-          <label for="20juta"> 20 - 30 Juta
-            <input type="radio" id="20juta" name="price" onclick="filterByPriceRange(20000000, 30000000)">
+          <label for="20juta">
+            20 - 30 Juta
+            <input
+              type="radio"
+              id="20juta"
+              name="price"
+              onclick="filterByPriceRange(20000000, 30000000)"
+            />
           </label>
-          <label for="30juta"> 30 - 40 Juta
-            <input type="radio" id="30juta" name="price" onclick="filterByPriceRange(30000000, 40000000)">
+          <label for="30juta">
+            30 - 40 Juta
+            <input
+              type="radio"
+              id="30juta"
+              name="price"
+              onclick="filterByPriceRange(30000000, 40000000)"
+            />
           </label>
-           <label for="40juta">40 Juta Lebih
-             <input type="radio" id="40juta" name="price" onclick="filterByPriceRange(40000000, Infinity)">
-           </label>
-            
+          <label for="40juta"
+            >40 Juta keatas
+            <input
+              type="radio"
+              id="40juta"
+              name="price"
+              onclick="filterByPriceRange(40000000, Infinity)"
+            />
+          </label>
         </div>
-        <button id="resetButton" class="reset" onclick="resetFilters()">Reset Filters</button>
-
+        <button id="resetButton" class="reset" onclick="resetFilters()">
+          Reset Filters
+        </button>
       </aside>
 
       <div id="packages"></div>

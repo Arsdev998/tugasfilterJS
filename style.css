@@ -1,16 +1,28 @@
 body {
-  background-color: #bcbfd7;
+  background-color: #eaeaea;
+  padding: 30px;
 }
-
+h1 {
+  text-align: center;
+  padding: 25px;
+  background-color: green;
+  border-radius: 20px;
+  color: #fff;
+}
 main {
   display: flex;
   justify-items: center;
+  gap: 40px;
 }
 aside {
+  padding: 14px 15px;
+  background-color: #fff;
   display: flex;
   flex-direction: column;
   width: 450px;
   font-size: 20px;
+  height: 100%;
+  border-radius: 10px;
 }
 select {
   font-size: 18px;
@@ -68,4 +80,7 @@ span {
   font-size: 20px;
   color: red;
   margin: auto;
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 20px;
 }
